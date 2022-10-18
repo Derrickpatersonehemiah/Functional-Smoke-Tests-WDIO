@@ -1,0 +1,47 @@
+{
+  "name": "webdriverio-cpcs",
+  "version": "1.0.0",
+  "description": "CPCS Test Automation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "page-test": "npx wdio run wdio.conf.js --suite CPCSPageTest",
+    "ippaar-filterstest": "npx wdio run wdio.conf.js --suite IPPAARSearchTest",
+    "ipp-filterstest": "npx wdio run wdio.conf.js --suite IPPSearchTest",
+    "filter-tests": "npx wdio run wdio.conf.js --suite FilterTests",
+    "regression": "npx wdio run wdio.conf.js",
+    "pre-test": "rimraf allure-results && rimraf allure-report && rimraf test-screenshots && rimraf wdio-logs",
+    "results": "allure generate --clean allure-results",
+    "report": "allure open allure-report"
+  },
+  "author": "Derrick Selvakumar",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.19.1",
+    "@babel/preset-env": "^7.19.1",
+    "@babel/register": "^7.18.9",
+    "@wdio/allure-reporter": "^7.25.1",
+    "@wdio/local-runner": "^7.24.0",
+    "@wdio/mocha-framework": "^7.24.0",
+    "@wdio/selenium-standalone-service": "^7.25.0",
+    "@wdio/spec-reporter": "^7.24.0",
+    "allure-commandline": "^2.18.1",
+    "chai": "^4.3.6",
+    "chromedriver": "^105.0.0",
+    "geckodriver": "^3.0.2",
+    "local-runner": "^0.1.1-alpha",
+    "rimraf": "^3.0.2",
+    "wdio-chromedriver-service": "^7.3.2",
+    "wdio-edgedriver-service": "^1.2.0",
+    "wdio-geckodriver-service": "^3.0.6",
+    "wdio-html-nice-reporter": "^8.0.3-beta2",
+    "webdriverio": "^7.24.0"
+  },
+  "dependencies": {
+    "@wdio/cli": "^7.24.0",
+    "chai": "*",
+    "mocha-allure-reporter": "^1.4.0",
+    "shelljs": "^0.8.5"
+  }
+}
