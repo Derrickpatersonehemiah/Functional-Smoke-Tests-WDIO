@@ -5,14 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "page-test": "npx wdio run wdio.conf.js --suite CPCSPageTest",
-    "ippaar-filterstest": "npx wdio run wdio.conf.js --suite IPPAARSearchTest",
-    "ipp-filterstest": "npx wdio run wdio.conf.js --suite IPPSearchTest",
-    "filter-tests": "npx wdio run wdio.conf.js --suite FilterTests",
-    "regression": "npx wdio run wdio.conf.js",
-    "pre-test": "rimraf allure-results && rimraf allure-report && rimraf test-screenshots && rimraf wdio-logs",
-    "results": "allure generate --clean allure-results",
-    "report": "allure open allure-report"
+    "Login-Test": "npx wdio run wdio.conf.js --suite LoginTest",
+    "Smoke-Test": "npx wdio run wdio.conf.js --suite SmokeTest"
+    
   },
   "author": "Derrick Selvakumar",
   "license": "ISC",

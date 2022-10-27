@@ -30,7 +30,8 @@ exports.config = {
         './tests/specs/**/*.js'
     ],
     suites: {
-        LoginTest:["tests/specs/CPCS Page Test.js"]
+        LoginTest:["test/Tests/Login Test.js"],
+        SmokeTest:["test/Tests/Smoke Test.js"]
         
 
      },
@@ -73,18 +74,18 @@ exports.config = {
     {
        browserName: 'chrome',
       acceptInsecureCerts: true
-    },
-    {
-        browserName: 'MicrosoftEdge',
-        acceptInsecureCerts: true
-    },
-    {
-        browserName: 'firefox',
-        acceptInsecureCerts: true,
+    }
+   // {
+       // browserName: 'MicrosoftEdge',
+       // acceptInsecureCerts: true
+    //},
+   //{
+        //browserName: 'firefox',
+        //acceptInsecureCerts: true,
         //"moz:firefoxOptions": {
         //"binary":"C:/Users/derr2765/AppData/Local/Mozilla Firefox/firefox.exe"
         //}
-    }
+    //}
     
  ],
     //
