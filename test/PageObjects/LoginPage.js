@@ -1,6 +1,5 @@
 const TestData = require('../PageObjects/TestData')
 const Common = require('./Common')
-const NPane = require('./NPane')
 
 class LoginPage
 {
@@ -22,7 +21,7 @@ class LoginPage
 
     get postloginUrl()
     {
-        return ['https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList']
+        return "https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList"
     }
     
     async Login()

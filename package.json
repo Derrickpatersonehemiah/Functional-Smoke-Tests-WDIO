@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "Login-Test": "npx wdio run wdio.conf.js --suite LoginTest",
-    "Smoke-Test": "npx wdio run wdio.conf.js --suite SmokeTest"
+    "App-SmokeTest": "npx wdio run wdio.conf.js --suite AppSmokeTest",
+    "pre-test": "rimraf allure-results && rimraf allure-report && rimraf test-screenshots && rimraf wdio-logs",
+    "results": "allure generate --clean allure-results",
+    "report": "allure open allure-report"
     
   },
   "author": "Derrick Selvakumar",

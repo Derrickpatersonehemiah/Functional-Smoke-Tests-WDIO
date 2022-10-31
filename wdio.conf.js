@@ -27,11 +27,11 @@ exports.config = {
     // will be called from there.
     //
     specs: [
-        './tests/specs/**/*.js'
+        './test/**/*.js'
     ],
     suites: {
         LoginTest:["test/Tests/Login Test.js"],
-        SmokeTest:["test/Tests/Smoke Test.js"]
+        AppSmokeTest:["test/Smoke Tests/App Smoke Test.js"]
         
 
      },
