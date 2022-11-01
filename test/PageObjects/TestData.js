@@ -11,6 +11,11 @@ get password()
     return ["admin123"]
 }
 
+get dataPasswd()
+{
+    return ["TestUser@321"]
+}
+
 get ModuleNames()
 {
     return ["Admin","PIM","Leave","Time","Recruitment","PIM","Performance","Dashboard","Directory","Buzz"]

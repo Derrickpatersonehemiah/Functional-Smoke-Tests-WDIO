@@ -5,7 +5,7 @@ const Common = require('../PageObjects/Common')
 describe('App Surface Smoke Test', async()=>
 {
   
-it('Login Verification',async()=>
+it('Login check',async()=>
 {
     await browser.url("/")
     expect(browser).toHaveTitle('OrangeHRM')
@@ -18,7 +18,7 @@ it('Post Login Page Check',async()=>
   await expect(Common.Logo).toBeClickable()
 })
 
-it('Search Verification ',async()=>
+it('Search Check ',async()=>
 {
   const searchValue = Common.SearchBar
   await searchValue.setValue("Admin")
@@ -26,7 +26,7 @@ it('Search Verification ',async()=>
   await Common.Adminlink.waitForDisplayed()
 })
 
-it('Modules Verification ',async()=>
+it('Modules Access Check ',async()=>
 {
   await browser.refresh()
   var i=0
@@ -38,7 +38,7 @@ it('Modules Verification ',async()=>
   await Common.ChkMaintainance()
 })
 
-it('User Menu verification ',async()=>
+it('User Menu Check ',async()=>
 {
   var values = TestData.UsrdrpdwMenuContents
   await Common.UserdrpdwnElmsCheck(values)
