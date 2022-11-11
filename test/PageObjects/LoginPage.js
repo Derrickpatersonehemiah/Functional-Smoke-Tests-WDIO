@@ -19,20 +19,123 @@ class LoginPage
        return $("button[type='submit']")
     }
 
+    get FieldAlert()
+    {
+        return $(".oxd-text.oxd-text--span.oxd-input-field-error-message.oxd-input-group__message")
+    }
+
+    get LoginAlerts()
+    {
+        return $(".oxd-text.oxd-text--p.oxd-alert-content-text")
+    }
+
+    get ForgotPassword()
+    {
+        return $(".oxd-text.oxd-text--p.orangehrm-login-forgot-header")
+    }
+
+    get ForgotPassPageUrl()
+    {
+        return "https://opensource-demo.orangehrmlive.com/web/index.php/auth/requestPasswordResetCode"
+    }
+
+    get ForgotPassCancelBtn()
+    {
+        return $("button[type='button']")
+    }
+
+    get ResetPassUrl()
+    {
+        return "https://opensource-demo.orangehrmlive.com/web/index.php/auth/sendPasswordReset"
+    }
+
+    get ResetPassPageTitle()
+    {
+        return $(".oxd-text.oxd-text--h6.orangehrm-forgot-password-title")
+    }
+
+    get LoginPageUrl()
+    {
+        return "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
+    }
+
+    get OrangehrmLinkBtn()
+    {
+        return $("a[href='http://www.orangehrm.com']")
+    }
+
+    get OrangehrmUrl()
+    {
+        return "https://www.orangehrm.com/"
+    }
+
+    get OrangeLinkedinLinkBtn()
+    {
+        return $("//a[@href='https://www.linkedin.com/company/orangehrm/mycompany/']//*[name()='svg']")
+    }
+
+    get OrangeLinkedinUrl()
+    {
+        return "https://www.linkedin.com/company/orangehrm/"
+    }
+
+    get OrangeFBLinkBtn()
+    {
+        return $("//a[@href='https://www.facebook.com/OrangeHRM/']//*[name()='svg']")
+    }
+
+    get OrangeFBUrl()
+    {
+        return "https://www.facebook.com/OrangeHRM/"
+    }
+
+    get OrangeTwitterLinkBtn()
+    {
+        return $("//a[@href='https://twitter.com/orangehrm?lang=en']//*[name()='svg']")
+    }
+
+    get OrangeTwitterUrl()
+    {
+        return "https://twitter.com/orangehrm?lang=en"
+    }
+
+    get OrangeYoutubeLinkBtn()
+    {
+        return $("//a[@href='https://www.youtube.com/c/OrangeHRMInc']//*[name()='svg']")
+    }
+
+    get OrangeYoutubeUrl()
+    {
+        return "https://www.youtube.com/c/OrangeHRMInc"
+    }
+
     get postloginUrl()
     {
         return "https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList"
     }
+
     
-    async Login()
+    async Login(usr,pass)
     {
-        await this.Username.setValue(TestData.username)
-        await this.Password.setValue(TestData.password)
+        await this.Username.click()
+        await this.Username.setValue(usr)
+        await this.Username.click()
+        await this.Password.setValue(pass)
         await this.LoginButton.click()
-        await Common.Logo.waitForDisplayed()
-        //await browser.setTimeout({ 'pageLoad': 30000 })
+         //await browser.setTimeout({ 'pageLoad': 30000 })
+    }
+    
+    async VerifyLoginAlert()
+    {
+        await this.LoginAlerts.waitForDisplayed()
+        await expect(this.LoginAlerts).toHaveText("Invalid credentials")
     }
 
+    async VerifyFieldAlert()
+    {
+        await this.FieldAlert.waitForDisplayed()
+        await expect(this.FieldAlert).toHaveText("Required")
+    }
 
 
 

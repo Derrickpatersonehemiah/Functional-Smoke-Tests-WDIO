@@ -14,6 +14,7 @@ it('Login to Admin Module', async()=>
  await browser.url("/")
  expect(browser).toHaveTitle('OrangeHRM')
  await LoginPage.Login()
+ await Common.Logo.waitForDisplayed()
  await Common.Adminlink.click()
 })
 

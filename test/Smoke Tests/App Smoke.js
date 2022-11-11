@@ -10,10 +10,12 @@ it('Login check',async()=>
     await browser.url("/")
     expect(browser).toHaveTitle('OrangeHRM')
     await LoginPage.Login()
+    
 })
 
 it('Post Login Page Check',async()=>
 {
+  await Common.Logo.waitForDisplayed()
   await expect(browser).toHaveUrl(LoginPage.postloginUrl)
   await expect(Common.Logo).toBeClickable()
 })

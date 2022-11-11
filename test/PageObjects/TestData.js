@@ -36,6 +36,21 @@ get UsrdrpdwMenuContents()
     return ["About","Support","Change Password","Logout"]
 }
 
+get InvalidUsernames()
+{
+    return ["adimn","admin123","ADMINI","aDmin","@234"]
+}
+
+get InvalidPasswords()
+{
+    retrun ["admin","ADMIN123","123admin","#%53","!!!!!"]
+}
+
+get blank()
+{
+    return [""]
+}
+
 
     
 }
