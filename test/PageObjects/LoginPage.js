@@ -76,7 +76,7 @@ class LoginPage
 
     get OrangeLinkedinUrl()
     {
-        return "https://www.linkedin.com/company/orangehrm/"
+        return "https://www.linkedin.com/company/orangehrm"
     }
 
     get OrangeFBLinkBtn()
@@ -111,7 +111,7 @@ class LoginPage
 
     get postloginUrl()
     {
-        return "https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList"
+        return "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index"
     }
 
     
@@ -124,11 +124,26 @@ class LoginPage
         await this.LoginButton.click()
          //await browser.setTimeout({ 'pageLoad': 30000 })
     }
-    
-    async VerifyLoginAlert()
+
+    async PopulateLoginFields(usr,pass)
     {
+        await this.Username.click()
+        await this.Username.setValue(usr)
+        await this.Password.click()
+        await this.Password.setValue(pass)
+    }
+    
+    async VerifyLogin(usr,ps)
+    {
+        const BrwUrl = await browser.getUrl()
+        if(BrwUrl == this.postloginUrl)
+        {
+          await expect(usr).toEqual(TestData.username)
+          await expect(ps).toEqual(TestData.password)
+        }else{
         await this.LoginAlerts.waitForDisplayed()
         await expect(this.LoginAlerts).toHaveText("Invalid credentials")
+        }
     }
 
     async VerifyFieldAlert()

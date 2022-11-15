@@ -3,17 +3,17 @@ class TestData
 
 get username()
 {
-    return ["Admin"]
+    return "Admin"
 }
 
 get password()
 {
-    return ["admin123"]
+    return "admin123"
 }
 
 get dataPasswd()
 {
-    return ["TestUser@321"]
+    return "TestUser@321"
 }
 
 get ModuleNames()
@@ -38,12 +38,12 @@ get UsrdrpdwMenuContents()
 
 get InvalidUsernames()
 {
-    return ["adimn","admin123","ADMINI","aDmin","@234"]
+    return ["adimn","admin123","ADMINI","@234","aDmin"]
 }
 
 get InvalidPasswords()
 {
-    retrun ["admin","ADMIN123","123admin","#%53","!!!!!"]
+    return ["admin","ADMIN123","123admin","#%53","aDmin123"]
 }
 
 get blank()

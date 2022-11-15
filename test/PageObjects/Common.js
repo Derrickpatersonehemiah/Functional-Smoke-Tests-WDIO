@@ -1,4 +1,5 @@
 const TestData = require('../PageObjects/TestData')
+const LoginPage = require('./LoginPage')
 
 
 class Common
@@ -99,6 +100,26 @@ get UsrdrpdwnMenu()
     return $("ul[role='menu']")
 }
 
+get AboutBtn()
+{
+    return $("//a[normalize-space()='About']")
+}
+
+get SupportBtn()
+{
+    return $("//a[normalize-space()='Support']")
+}
+
+get ChangePasswordBtn()
+{
+    return $("//a[normalize-space()='Change Password']")
+}
+
+get LogoutBtn()
+{
+    return $("//a[normalize-space()='Logout']")
+}
+
 async ModulesCheck(a)
 {
    var pgname = TestData.Pages[a]
@@ -133,6 +154,14 @@ async ChkMaintainance()
     await this.Logo.waitForDisplayed()
     await expect(this.breadcrumb).toHaveTextContaining("Maintenance")
     await expect(browser).toHaveUrlContaining("maintenance")
+}
+
+async Logout()
+{
+    await this.Userdrpdwn.click()
+    await this.UsrdrpdwnMenu.waitForDisplayed()
+    await this.LogoutBtn.click()
+    await LoginPage.LoginButton.waitForDisplayed()
 }
 
 
