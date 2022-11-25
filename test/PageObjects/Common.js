@@ -1,4 +1,5 @@
 const TestData = require('../PageObjects/TestData')
+const AdminPage = require('./AdminPage')
 const LoginPage = require('./LoginPage')
 
 
@@ -13,6 +14,11 @@ get Logo()
 get Adminlink()
 {
     return $("body > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > aside:nth-child(1) > nav:nth-child(1) > div:nth-child(2) > ul:nth-child(2) > li:nth-child(1) > a:nth-child(1)")
+}
+
+get TableRow()
+{
+    return $("body > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)")
 }
 
 get PIMlink()
@@ -100,6 +106,11 @@ get UsrdrpdwnMenu()
     return $("ul[role='menu']")
 }
 
+get FieldAlert()
+{
+    return $(".oxd-text.oxd-text--span.oxd-input-field-error-message.oxd-input-group__message")
+}
+
 get AboutBtn()
 {
     return $("//a[normalize-space()='About']")
@@ -118,6 +129,11 @@ get ChangePasswordBtn()
 get LogoutBtn()
 {
     return $("//a[normalize-space()='Logout']")
+}
+
+get LoadingSymbol()
+{
+    return $(".oxd-loading-spinner")
 }
 
 async ModulesCheck(a)
@@ -154,6 +170,46 @@ async ChkMaintainance()
     await this.Logo.waitForDisplayed()
     await expect(this.breadcrumb).toHaveTextContaining("Maintenance")
     await expect(browser).toHaveUrlContaining("maintenance")
+}
+
+async VerifyNoOfResults()
+{
+  const NoOfRows = $$(".oxd-table-card").length
+  return NoOfRows
+}
+
+async VerifyUsrNameResults(val)
+{
+  await this.LoadingSymbol.waitForDisplayed({ reverse: true })
+  const Num = this.VerifyNoOfResults()
+  if(this.TableRow)
+  {
+  for(let i=1;i<=Num;i++)
+  {
+    var UsrNameResults = $(`body > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(${i}) > div:nth-child(1) > div:nth-child(2)`)
+    await expect(UsrNameResults).toHaveTextContaining(val)
+  }
+  }else{
+    await AdminPage.Alert.waitForDisplayed()
+    await expect(AdminPage.Alert).toHaveTextContaining("No Records Found")
+    }
+}
+
+async VerifyEmpNameResults(val)
+{
+  await this.LoadingSymbol.waitForDisplayed({ reverse: true })
+  const Num = this.VerifyNoOfResults()
+  if(val == "No Records Found")
+  {
+   await this.FieldAlert.waitForDisplayed()
+   await expect(this.FieldAlert).toHaveTextContaining(val)
+   }else{
+   for(let i=1;i<=Num;i++)
+   {
+   var EmpNameResults = $(`div[role='rowgroup'] div:nth-child(${i}) div:nth-child(1) div:nth-child(4)`)
+    await expect(EmpNameResults).toHaveTextContaining(val)
+   }
+    }
 }
 
 async Logout()

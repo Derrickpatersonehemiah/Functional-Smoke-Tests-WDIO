@@ -30,7 +30,7 @@ it('Edit User Check', async()=>
 {
  await AdminPage.EditUserbtn.click()
  await AdminPage.ActionTitle.waitForDisplayed()
- await AdminPage.EmpNameSelection("t")
+ await AdminPage.EmpNameSelection("t","1")
  await AdminPage.SubmitBtn.click()
  await AdminPage.Alert.waitForDisplayed()
  await expect(AdminPage.Alert).toHaveTextContaining('Successfully Updated')

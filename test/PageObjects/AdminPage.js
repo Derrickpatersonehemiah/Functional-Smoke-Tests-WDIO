@@ -1,3 +1,4 @@
+const Common = require("./Common")
 const TestData = require("./TestData")
 
 class AdminPage
@@ -44,6 +45,39 @@ get Alert()
     return $("[class='oxd-text oxd-text--p oxd-text--toast-message oxd-toast-content-text']")
 }
 
+//------Search User---------
+
+get SearchUsrVisiblity()
+{
+    return $(".oxd-icon.bi-caret-up-fill")
+}
+
+get SearchUsrName()
+{
+    return $("div[class='oxd-input-group oxd-input-field-bottom-space'] div input[class='oxd-input oxd-input--active']")
+}
+
+get SearchUsrRoledrpdwn()
+{
+    return $("body > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > form:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > i:nth-child(1)")
+}
+
+get SearchUsrRoleValue()
+{
+    return $("div[class='oxd-table-filter-area'] div:nth-child(2) div:nth-child(1) div:nth-child(2) div:nth-child(1) div:nth-child(1) div:nth-child(1)")
+}
+
+get SearchStatusdrpdwn()
+{
+    return $("body > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > form:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > i:nth-child(1)")
+}
+
+get SearchResetBtn()
+{
+    return $("button[class='oxd-button oxd-button--medium oxd-button--ghost']")
+}
+
+
 //------Add User--------------
 get SubmitBtn()
 {
@@ -63,11 +97,6 @@ get EmpName()
 get ListBox()
 {
    return $("div[role='listbox']")
-}
-
-get SelectNameSugg()
-{
-   return $("div:nth-child(1)[role='option']")
 }
 
 get UserRoledrpdwn()
@@ -100,14 +129,14 @@ get StatusDisabled()
     return $("div:nth-child(3)[role='option']")
 }
 
+get OnSelected()
+{
+    return "oxd-select-option --selected"
+}
+
 get usrname()
 {
     return $("div[class='oxd-form-row'] div[class='oxd-grid-2 orangehrm-full-width-grid'] div[class='oxd-grid-item oxd-grid-item--gutters'] div[class='oxd-input-group oxd-input-field-bottom-space'] div input[class='oxd-input oxd-input--active']")
-}
-
-get usrnameMsg()
-{
-    return $("div[class='oxd-form-row'] span[class='oxd-text oxd-text--span oxd-input-field-error-message oxd-input-group__message']")
 }
 
 get passwd()
@@ -127,15 +156,75 @@ get confirmpassMsg()
 
 
 
-async EmpNameSelection(empValue)
+async EmpNameSelection(empValue,optNo,result)
 {
  await this.EmpName.setValue(empValue)
  await this.ListBox.waitForDisplayed()
- await $("div:nth-child(2)[role='option']").waitForDisplayed()
- await browser.pause(1000)
- await this.SelectNameSugg.click()
+ await $("//div[text()='Searching....']").waitForDisplayed()
+ if(empValue.length > 30)
+ {
+   await expect(this.Alert).toHaveTextContaining("Invalid Parameter")
+ }else{
+ await $("//div[text()='Searching....']").waitForDisplayed({reverse: true})
+ const selection =await $(`div:nth-child(${optNo})[role='option']`)
+ await selection.waitForDisplayed()
+ result = await selection.getText()
+ await selection.click()
+ return result
+ }
 }
 
+async SelectSearchUsrRole(role)
+{
+  await this.SearchUsrVisiblity.waitForDisplayed()
+  await this.SearchUsrRoledrpdwn.click()
+  await this.ListBox.waitForDisplayed() 
+  if(role == "Admin")
+  {
+    await this.UsrRoleAdmin.click()
+    await this.ListBox.waitForDisplayed({ reverse: true })
+  }else
+  {
+    await this.UsrRoleESS.click()
+    await this.ListBox.waitForDisplayed({ reverse: true })
+  }
+  
+}
+
+async VerifyUserRoleOptions()
+{
+    await this.SelectSearchUsrRole("Admin")
+    await expect(this.SearchUsrRoleValue).toHaveTextContaining("Admin")
+    await this.SearchResetBtn.click()
+    await this.SelectSearchUsrRole("ESS")
+    await expect(this.SearchUsrRoleValue).toHaveTextContaining("ESS")
+    await this.SearchResetBtn.click()
+}
+
+async VerifyUserNameSearch(values)
+{
+    await this.SearchUsrVisiblity.waitForDisplayed()
+    for(let i=0;i<values.length;i++)
+    {
+     await this.SearchUsrName.setValue(values[i])
+     await this.SubmitBtn.click()
+     await Common.VerifyUsrNameResults(values[i])
+     await this.SearchResetBtn.click()
+    }
+}
+
+async VerifyEmployeeNameSearch(values)
+{
+   await this.SearchUsrVisiblity.waitForDisplayed()
+   for(let i=0;i<values.length;i++)
+   {
+    var result
+    await this.EmpNameSelection(values[i],"1",result)
+    await this.SubmitBtn.click()
+    await Common.VerifyEmpNameResults(result)
+    await this.SearchResetBtn.click()
+   }
+}
 
 async AddUser()
 {
@@ -144,7 +233,7 @@ async AddUser()
  await this.AddUserbtn.waitForDisplayed()
  await this.AddUserbtn.click()
  await this.ActionTitle.waitForDisplayed()
- await this.EmpNameSelection("h")
+ await this.EmpNameSelection("h","1")
  await this.UserRoledrpdwn.click()
  await this.ListBox.waitForDisplayed()
  await this.UsrRoleAdmin.click()
@@ -153,7 +242,7 @@ async AddUser()
  await this.StatusEnabled.click()
  await this.usrname.clearValue()
  await this.usrname.setValue("TestUser"+currtime)
- await this.usrnameMsg.waitForDisplayed({ reverse: true })
+ await Common.FieldAlert.waitForDisplayed({ reverse: true })
  await this.passwd.clearValue()
  await this.passwd.setValue(TestData.dataPasswd)
  await this.confirmpasswd.setValue(TestData.dataPasswd)

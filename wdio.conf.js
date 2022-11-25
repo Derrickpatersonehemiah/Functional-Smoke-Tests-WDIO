@@ -32,7 +32,8 @@ exports.config = {
     suites: {
         LoginPageTest:["test/Functional Tests/Login Page Test.js"],
         AppSmokeTest:["test/Smoke Tests/App Smoke.js"],
-        AdminSmokeTest:["test/Smoke Tests/Admin Smoke.js"]
+        AdminSmokeTest:["test/Smoke Tests/Admin Smoke.js"],
+        AdminFunctionalTest:["test/Functional Tests/Admin Functional Test.js"]
         
 
      },

@@ -1,5 +1,5 @@
 const TestData = require('../PageObjects/TestData')
-const Common = require('./Common')
+const Common = require('../PageObjects/Common')
 
 class LoginPage
 {
@@ -17,11 +17,6 @@ class LoginPage
     get LoginButton()
     {
        return $("button[type='submit']")
-    }
-
-    get FieldAlert()
-    {
-        return $(".oxd-text.oxd-text--span.oxd-input-field-error-message.oxd-input-group__message")
     }
 
     get LoginAlerts()
@@ -117,6 +112,7 @@ class LoginPage
     
     async Login(usr,pass)
     {
+        await expect(browser).toHaveTitle('OrangeHRM')
         await this.Username.click()
         await this.Username.setValue(usr)
         await this.Username.click()
@@ -148,8 +144,8 @@ class LoginPage
 
     async VerifyFieldAlert()
     {
-        await this.FieldAlert.waitForDisplayed()
-        await expect(this.FieldAlert).toHaveText("Required")
+        await Common.FieldAlert.waitForDisplayed()
+        await expect(Common.FieldAlert).toHaveText("Required")
     }
 
 

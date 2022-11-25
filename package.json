@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "LoginPage-Test": "npx wdio run wdio.conf.js --suite LoginPageTest",
+    "AdminFunc-Test": "npx wdio run wdio.conf.js --suite AdminFunctionalTest",
     "App-Smoke": "npx wdio run wdio.conf.js --suite AppSmokeTest",
     "Admin-Smoke":"npx wdio run wdio.conf.js --suite AdminSmokeTest",
     "pre-test": "rimraf allure-results && rimraf allure-report && rimraf test-screenshots && rimraf wdio-logs",
