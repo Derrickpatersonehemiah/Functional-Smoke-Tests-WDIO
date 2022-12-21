@@ -1,7 +1,6 @@
 const TestData = require('../PageObjects/TestData')
-const AdminPage = require('./AdminPage')
 const LoginPage = require('./LoginPage')
-
+const chai = require('chai')
 
 class Common
 {
@@ -11,9 +10,19 @@ get Logo()
     return $("img[alt='client brand banner']")
 }   
 
+get Alert()
+{
+    return $("[class='oxd-text oxd-text--p oxd-text--toast-message oxd-toast-content-text']")
+}
+
 get Adminlink()
 {
     return $("body > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > aside:nth-child(1) > nav:nth-child(1) > div:nth-child(2) > ul:nth-child(2) > li:nth-child(1) > a:nth-child(1)")
+}
+
+get Table()
+{
+    return $(".orangehrm-container")
 }
 
 get TableRow()
@@ -136,6 +145,16 @@ get LoadingSymbol()
     return $(".oxd-loading-spinner")
 }
 
+get SearchUsrnameResult()
+{
+    return $("div[role='rowgroup'] div div:nth-child(1) div:nth-child(2) div:nth-child(1)")
+}
+
+get SearchResetBtn()
+{
+    return $("button[class='oxd-button oxd-button--medium oxd-button--ghost']")
+}
+
 async ModulesCheck(a)
 {
    var pgname = TestData.Pages[a]
@@ -178,37 +197,64 @@ async VerifyNoOfResults()
   return NoOfRows
 }
 
-async VerifyUsrNameResults(val)
-{
-  await this.LoadingSymbol.waitForDisplayed({ reverse: true })
-  const Num = this.VerifyNoOfResults()
-  if(this.TableRow)
-  {
-  for(let i=1;i<=Num;i++)
-  {
-    var UsrNameResults = $(`body > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(${i}) > div:nth-child(1) > div:nth-child(2)`)
-    await expect(UsrNameResults).toHaveTextContaining(val)
-  }
-  }else{
-    await AdminPage.Alert.waitForDisplayed()
-    await expect(AdminPage.Alert).toHaveTextContaining("No Records Found")
+async UsernameDisplayed(){
+    try{ 
+      await this.SearchUsrnameResult.getText();
+      return true;
+    }catch(NoAlertException){
+      return false;
     }
 }
 
-async VerifyEmpNameResults(val)
+async RowsDisplayed(){
+    try{ 
+      await this.TableRow;
+      return true;
+    }catch(NoAlertException){
+      return false;
+    }
+}
+
+async VerifyUsrNameResults(val)
 {
   await this.LoadingSymbol.waitForDisplayed({ reverse: true })
-  const Num = this.VerifyNoOfResults()
-  if(val == "No Records Found")
+  await this.Table.waitForDisplayed()
+  if(this.RowsDisplayed() == true )
   {
-   await this.FieldAlert.waitForDisplayed()
-   await expect(this.FieldAlert).toHaveTextContaining(val)
-   }else{
-   for(let i=1;i<=Num;i++)
-   {
-   var EmpNameResults = $(`div[role='rowgroup'] div:nth-child(${i}) div:nth-child(1) div:nth-child(4)`)
-    await expect(EmpNameResults).toHaveTextContaining(val)
-   }
+    expect(this.SearchUsrnameResult).toHaveTextContaining(val)
+  }else{
+    expect(this.Alert).toHaveTextContaining("No Records Found")
+      }
+}
+
+async VerifyEmpNameResults(result)
+{
+  await this.LoadingSymbol.waitForDisplayed({ reverse: true })
+  await this.Table.waitForDisplayed()
+  if((result != "No Records Found"))
+  {
+    const EmpNameResults = await $$("div[role='rowgroup'] div div:nth-child(1) div:nth-child(4)")
+    expect(EmpNameResults).toHaveTextContaining(result)
+  }else{
+    expect(this.FieldAlert).toHaveTextContaining("Invalid")
+    }
+}
+
+async VerifyUsrRoleResults(val)
+{
+  await this.LoadingSymbol.waitForDisplayed({ reverse: true })
+  await this.Table.waitForDisplayed()
+  if(this.RowsDisplayed() == false)
+  {
+   expect(this.Alert).toHaveTextContaining(val)
+  }else{
+   const UsrRoleResults = await $("div[role='rowgroup'] div div:nth-child(1) div:nth-child(3) div:nth-child(1)")
+   expect(UsrRoleResults).toHaveTextContaining(val)
+   await this.SearchResetBtn.click()
+   await this.LoadingSymbol.waitForDisplayed({ reverse: true })
+   await UsrRoleResults.waitForDisplayed()
+   const usrRoleval = await UsrRoleResults.getText()
+   chai.expect(usrRoleval).to.contain.oneOf(["Admin","ESS"])
     }
 }
 

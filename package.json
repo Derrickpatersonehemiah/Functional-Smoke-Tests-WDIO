@@ -9,6 +9,9 @@
     "AdminFunc-Test": "npx wdio run wdio.conf.js --suite AdminFunctionalTest",
     "App-Smoke": "npx wdio run wdio.conf.js --suite AppSmokeTest",
     "Admin-Smoke":"npx wdio run wdio.conf.js --suite AdminSmokeTest",
+    "Smokes":"npx wdio run wdio.conf.js --suite SmokeTests",
+    "Functionals":"npx wdio run wdio.conf.js --suite FunctionalTests",
+    "Tests":"npx wdio run wdio.conf.js --suite Tests",
     "pre-test": "rimraf allure-results && rimraf allure-report && rimraf test-screenshots && rimraf wdio-logs",
     "results": "allure generate --clean allure-results",
     "report": "allure open allure-report"

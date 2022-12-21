@@ -6,6 +6,8 @@ const TestData = require('../PageObjects/TestData')
 describe('Admin Functional Tests', async()=>
 {
 
+////----Search Test------////
+
 it('Login to Admin Module', async()=>
 {
  await browser.maximizeWindow()  
@@ -18,8 +20,8 @@ it('Login to Admin Module', async()=>
 it('Verify Search by Existing Usernames', async()=>
 {
  try{
-    var values=TestData.SearchValidUsrNames
-    await AdminPage.VerifyUserNameSearch(values)
+    const val=TestData.SearchValidUsrNames
+    await AdminPage.VerifyUserNameSearch(val)
     }catch(excption){
     await AdminPage.SearchResetBtn.click()
     throw excption
@@ -29,8 +31,8 @@ it('Verify Search by Existing Usernames', async()=>
 it('Verify Search by Non Existing Usernames', async()=>
 {
  try{
-    var values=TestData.SearchInvalidUsrNames
-    await AdminPage.VerifyUserNameSearch(values)
+    const val=TestData.SearchInvalidUsrNames
+    await AdminPage.VerifyUserNameSearch(val)
     }catch(excption){
     await AdminPage.SearchResetBtn.click()
     throw excption
@@ -40,8 +42,8 @@ it('Verify Search by Non Existing Usernames', async()=>
 it('Verify Search by Existing Employee Names', async()=>
 {
  try{
-    var values=TestData.SearchValidEmpNames
-    await AdminPage.VerifyEmployeeNameSearch(values)
+    const val=TestData.SearchValidEmpNames
+    await AdminPage.VerifyEmployeeNameSearch(val)
    }catch(excption){
    await AdminPage.SearchResetBtn.click()
    throw excption
@@ -69,5 +71,17 @@ it('User Roles dropdown Selection Verification', async()=>
     }
 })
 
+it('Verify Search by changing User Roles', async()=>
+{
+ try{
+     var values=TestData.SearchUsrRoles
+     await AdminPage.VerifyUserRoleSearch(values)
+    }catch(excption){
+    await AdminPage.SearchResetBtn.click()
+    throw excption
+    }
+})
+
+/////------//////
 
 })    

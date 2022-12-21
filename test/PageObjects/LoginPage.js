@@ -110,22 +110,18 @@ class LoginPage
     }
 
     
-    async Login(usr,pass)
+    async Login(usr,ps)
     {
         await expect(browser).toHaveTitle('OrangeHRM')
-        await this.Username.click()
         await this.Username.setValue(usr)
-        await this.Username.click()
-        await this.Password.setValue(pass)
+        await this.Password.setValue(ps)
         await this.LoginButton.click()
          //await browser.setTimeout({ 'pageLoad': 30000 })
     }
 
     async PopulateLoginFields(usr,pass)
     {
-        await this.Username.click()
         await this.Username.setValue(usr)
-        await this.Password.click()
         await this.Password.setValue(pass)
     }
     
@@ -137,15 +133,13 @@ class LoginPage
           await expect(usr).toEqual(TestData.username)
           await expect(ps).toEqual(TestData.password)
         }else{
-        await this.LoginAlerts.waitForDisplayed()
         await expect(this.LoginAlerts).toHaveText("Invalid credentials")
         }
     }
 
     async VerifyFieldAlert()
     {
-        await Common.FieldAlert.waitForDisplayed()
-        await expect(Common.FieldAlert).toHaveText("Required")
+        expect(Common.FieldAlert).toHaveTextContaining("Required")
     }
 
 

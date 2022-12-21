@@ -40,11 +40,6 @@ get EditUserbtn()
     return $("body > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(3) > div:nth-child(1) > div:nth-child(6) > div:nth-child(1) > button:nth-child(2)")
 }
 
-get Alert()
-{
-    return $("[class='oxd-text oxd-text--p oxd-text--toast-message oxd-toast-content-text']")
-}
-
 //------Search User---------
 
 get SearchUsrVisiblity()
@@ -156,22 +151,22 @@ get confirmpassMsg()
 
 
 
-async EmpNameSelection(empValue,optNo,result)
-{
+async EmpNameSelection(empValue,optNo)
+{   
  await this.EmpName.setValue(empValue)
  await this.ListBox.waitForDisplayed()
  await $("//div[text()='Searching....']").waitForDisplayed()
  if(empValue.length > 30)
  {
-   await expect(this.Alert).toHaveTextContaining("Invalid Parameter")
+   await expect(Common.Alert).toHaveTextContaining("Invalid Parameter")
  }else{
  await $("//div[text()='Searching....']").waitForDisplayed({reverse: true})
- const selection =await $(`div:nth-child(${optNo})[role='option']`)
+ const selection = $(`div:nth-child(${optNo})[role='option']`)
  await selection.waitForDisplayed()
- result = await selection.getText()
  await selection.click()
- return result
- }
+ await selection.waitForDisplayed({reverse: true})
+ await this.ListBox.waitForDisplayed({reverse: true})
+  }
 }
 
 async SelectSearchUsrRole(role)
@@ -183,7 +178,7 @@ async SelectSearchUsrRole(role)
   {
     await this.UsrRoleAdmin.click()
     await this.ListBox.waitForDisplayed({ reverse: true })
-  }else
+  }else if(role == "ESS")
   {
     await this.UsrRoleESS.click()
     await this.ListBox.waitForDisplayed({ reverse: true })
@@ -199,31 +194,60 @@ async VerifyUserRoleOptions()
     await this.SelectSearchUsrRole("ESS")
     await expect(this.SearchUsrRoleValue).toHaveTextContaining("ESS")
     await this.SearchResetBtn.click()
+    await expect(this.SearchUsrRoleValue).toHaveTextContaining("-- Select --")
 }
 
-async VerifyUserNameSearch(values)
-{
+async VerifyUserRoleSearch(values)
+{   
     await this.SearchUsrVisiblity.waitForDisplayed()
     for(let i=0;i<values.length;i++)
     {
-     await this.SearchUsrName.setValue(values[i])
+     await this.SelectSearchUsrRole(values[i])
      await this.SubmitBtn.click()
-     await Common.VerifyUsrNameResults(values[i])
+     await Common.VerifyUsrRoleResults(values[i])
+     await this.SearchResetBtn.click()
+    }
+    
+    
+}
+
+async VerifyUserNameSearch(val)
+{
+    await this.SearchUsrVisiblity.waitForDisplayed()
+    for(let i=0;i<val.length;i++)
+    {
+     await this.SearchUsrName.setValue(val[i])
+     await this.SubmitBtn.click()
+     await Common.VerifyUsrNameResults(val[i])
      await this.SearchResetBtn.click()
     }
 }
 
-async VerifyEmployeeNameSearch(values)
+async VerifyEmployeeNameSearch(val)
 {
    await this.SearchUsrVisiblity.waitForDisplayed()
-   for(let i=0;i<values.length;i++)
+   for(let i=0;i<val.length;i++)
    {
-    var result
-    await this.EmpNameSelection(values[i],"1",result)
-    await this.SubmitBtn.click()
-    await Common.VerifyEmpNameResults(result)
-    await this.SearchResetBtn.click()
+ await this.EmpName.setValue(val[i])
+ await this.ListBox.waitForDisplayed()
+ await $("//div[text()='Searching....']").waitForDisplayed()
+ if(val[i].length > 30)
+ {
+   await expect(Common.Alert).toHaveTextContaining("Invalid Parameter")
+ }else{
+ await $("//div[text()='Searching....']").waitForDisplayed({reverse: true})
+ const selection = $("div:nth-child(1)[role='option']")
+ await selection.waitForDisplayed()
+ var res = await selection.getText()
+ await selection.click()
+ await selection.waitForDisplayed({reverse: true})
+ await this.ListBox.waitForDisplayed({reverse: true})
+ await this.SubmitBtn.waitForDisplayed()
+ await this.SubmitBtn.click()
+ await Common.VerifyEmpNameResults(res)
+ await this.SearchResetBtn.click()
    }
+}
 }
 
 async AddUser()

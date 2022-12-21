@@ -33,7 +33,10 @@ exports.config = {
         LoginPageTest:["test/Functional Tests/Login Page Test.js"],
         AppSmokeTest:["test/Smoke Tests/App Smoke.js"],
         AdminSmokeTest:["test/Smoke Tests/Admin Smoke.js"],
-        AdminFunctionalTest:["test/Functional Tests/Admin Functional Test.js"]
+        AdminFunctionalTest:["test/Functional Tests/Admin Functional Test.js"],
+        SmokeTests:["test/Smoke Tests/App Smoke.js","test/Smoke Tests/Admin Smoke.js"],
+        FunctionalTests:["test/Functional Tests/Login Page Test.js","test/Functional Tests/Admin Functional Test.js"],
+        Tests:["test/Smoke Tests/App Smoke.js","test/Smoke Tests/Admin Smoke.js","test/Functional Tests/Login Page Test.js","test/Functional Tests/Admin Functional Test.js"]
         
 
      },
@@ -57,7 +60,7 @@ exports.config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-   maxInstances: 3,
+   maxInstances: 1,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:

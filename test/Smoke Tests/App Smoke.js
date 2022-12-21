@@ -9,8 +9,7 @@ it('Login check',async()=>
 {
     await browser.url("/")
     expect(browser).toHaveTitle('OrangeHRM')
-    await LoginPage.Login()
-    
+    await LoginPage.Login(TestData.username,TestData.password)
 })
 
 it('Post Login Page Check',async()=>
